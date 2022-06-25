@@ -1,4 +1,14 @@
-const DUMMY_EVENTS = [
+export interface Event {
+  id: string;
+  title: string;
+  description: string;
+  location: string;
+  date: string;
+  image: string;
+  isFeatured: boolean;
+}
+
+const DUMMY_EVENTS: Event[] = [
   {
     id: "e1",
     title: "Programming for everyone",

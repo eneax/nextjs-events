@@ -1,10 +1,16 @@
+import * as React from "react";
 import type { NextPage } from "next";
 
+import { getFeaturedEvents } from "data/dummy-data";
+import EventList from "components/events/EventList";
+
 const Home: NextPage = () => {
+  const featuredEvents = getFeaturedEvents();
+
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">The Home</h1>
-    </div>
+    <React.Fragment>
+      <EventList events={featuredEvents} />
+    </React.Fragment>
   );
 };
 
