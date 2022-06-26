@@ -1,5 +1,6 @@
+import Button from "components/Button";
 import Image from "next/image";
-import Link from "next/link";
+import { FiCalendar, FiHome, FiArrowRight } from "react-icons/fi";
 
 const EventItem = ({
   id,
@@ -41,14 +42,20 @@ const EventItem = ({
             <div className="p-8 sm:p-16 lg:p-24">
               <h2 className="text-2xl font-bold sm:text-3xl">{title}</h2>
 
-              <time className="mt-4 text-gray-600">{formattedDate}</time>
-              <address className="mt-4 text-gray-600">{location}</address>
+              <time className="mt-4 text-gray-600 flex items-center">
+                <FiCalendar className="inline-block mr-1" />
+                {formattedDate}
+              </time>
 
-              <Link href={`/events/${id}`}>
-                <a className="inline-block px-12 py-3 mt-8 text-sm font-medium text-white bg-indigo-600 border border-indigo-600 rounded active:text-indigo-500 hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring">
-                  Explore Event
-                </a>
-              </Link>
+              <address className="mt-4 text-gray-600 flex items-center">
+                <FiHome className="inline-block mr-1" />
+                {location}
+              </address>
+
+              <Button link={`/events/${id}`}>
+                <span className="text-sm font-medium">Explore Event</span>
+                <FiArrowRight className="inline-block mx-1" />
+              </Button>
             </div>
           </div>
         </div>
