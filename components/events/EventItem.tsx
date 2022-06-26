@@ -31,6 +31,8 @@ const EventItem = ({
                 src={`/${image}`}
                 alt={title}
                 layout="fill"
+                placeholder="blur"
+                blurDataURL={`/${image}`}
                 className="absolute inset-0 object-cover w-full h-full"
               />
             </div>

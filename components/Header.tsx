@@ -11,7 +11,7 @@ const Header = () => (
     <ul className="flex items-center space-x-2 text-sm font-medium text-gray-500">
       <li>
         <Link href="/events">
-          <a className="px-3 py-2 rounded-lg">Events</a>
+          <a className="px-3 py-2 rounded-lg">All Events</a>
         </Link>
       </li>
     </ul>
