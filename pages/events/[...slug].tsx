@@ -4,6 +4,7 @@ import type { NextPage } from "next";
 
 import { getFilteredEvents } from "data/dummy-data";
 import EventList from "components/events/EventList";
+import Results from "components/events/Results";
 
 const FilteredEventsPage: NextPage = () => {
   const router = useRouter();
@@ -39,8 +40,11 @@ const FilteredEventsPage: NextPage = () => {
     return <p>No events found for the chosen date.</p>;
   }
 
+  const date = new Date(numYear, numMonth - 1);
+
   return (
     <React.Fragment>
+      <Results date={date} />
       <EventList events={filteredEvents} />
     </React.Fragment>
   );
