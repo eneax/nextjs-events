@@ -41,17 +41,18 @@ const DUMMY_EVENTS: Event[] = [
   },
 ];
 
-export function getFeaturedEvents() {
-  return DUMMY_EVENTS.filter((event) => event.isFeatured);
-}
+export const getFeaturedEvents = () =>
+  DUMMY_EVENTS.filter((event) => event.isFeatured);
 
-export function getAllEvents() {
-  return DUMMY_EVENTS;
-}
+export const getAllEvents = () => DUMMY_EVENTS;
 
-export function getFilteredEvents(dateFilter) {
-  const { year, month } = dateFilter;
-
+export const getFilteredEvents = ({
+  year,
+  month,
+}: {
+  year: number;
+  month: number;
+}) => {
   let filteredEvents = DUMMY_EVENTS.filter((event) => {
     const eventDate = new Date(event.date);
     return (
@@ -60,8 +61,8 @@ export function getFilteredEvents(dateFilter) {
   });
 
   return filteredEvents;
-}
+};
 
-export function getEventById(id: string): Event | undefined {
+export const getEventById = (id: string): Event | undefined => {
   return DUMMY_EVENTS.find((event) => event.id === id);
-}
+};
