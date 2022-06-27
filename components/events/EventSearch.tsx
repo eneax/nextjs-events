@@ -1,8 +1,31 @@
+import * as React from "react";
+
 import Button from "components/Button";
 
-const EventSearch = () => {
+const EventSearch = ({
+  onSearch,
+}: {
+  onSearch: (year: string, month: string) => void;
+}) => {
+  const yearRef = React.useRef<HTMLSelectElement>(null);
+  const monthRef = React.useRef<HTMLSelectElement>(null);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const selectedYear = yearRef?.current?.value;
+    const selectedMonth = monthRef?.current?.value;
+
+    if (selectedYear && selectedMonth) {
+      onSearch(selectedYear, selectedMonth);
+    }
+  };
+
   return (
-    <form className="my-8 mx-auto p-4 bg-white w-11/12 max-w-2xl flex flex-col md:flex-row justify-between gap-4 shadow rounded-md">
+    <form
+      onSubmit={handleSubmit}
+      className="my-8 mx-auto p-4 bg-white w-11/12 max-w-2xl flex flex-col md:flex-row justify-between gap-4 shadow rounded-md"
+    >
       <div className="flex flex-col gap-4 w-full md:w-4/5 md:flex-row mx-auto">
         <div className="flex items-center justify-between gap-4 flex-1">
           <label htmlFor="year" className="font-bold">
@@ -10,6 +33,7 @@ const EventSearch = () => {
           </label>
           <select
             id="year"
+            ref={yearRef}
             className="bg-white w-8/12 p-1 rounded-md border md:w-full"
           >
             <option value="2022">2022</option>
@@ -22,6 +46,7 @@ const EventSearch = () => {
           </label>
           <select
             id="month"
+            ref={monthRef}
             className="bg-white w-8/12 p-1 rounded-md border md:w-full"
           >
             <option value="1">January</option>
