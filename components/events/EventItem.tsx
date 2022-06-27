@@ -49,7 +49,7 @@ const EventItem = ({
                 {formattedDate}
               </time>
 
-              <address className="mt-4 text-gray-600 flex items-center">
+              <address className="mt-4 mb-8 text-gray-600 flex items-center">
                 <FiHome className="inline-block mr-1" />
                 {location}
               </address>
