@@ -1,9 +1,10 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-
-import { getEventById } from "data/dummy-data";
 import { FiCalendar, FiHome } from "react-icons/fi";
 import Image from "next/image";
+
+import { getEventById } from "data/dummy-data";
+import Empty from "components/Empty";
 
 const EventDetailsPage: NextPage = () => {
   const router = useRouter();
@@ -11,7 +12,9 @@ const EventDetailsPage: NextPage = () => {
   const event = getEventById(eventId as string);
 
   if (!event) {
-    return <p>No event found!</p>;
+    return (
+      <Empty header="No events found." text="Please select a different date." />
+    );
   }
 
   const formattedDate = new Date(event.date).toLocaleDateString("en-US", {

@@ -5,6 +5,7 @@ import type { NextPage } from "next";
 import { getFilteredEvents } from "data/dummy-data";
 import EventList from "components/events/EventList";
 import Results from "components/events/Results";
+import Empty from "components/Empty";
 
 const FilteredEventsPage: NextPage = () => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const FilteredEventsPage: NextPage = () => {
     numMonth > 12 ||
     numMonth < 1
   ) {
-    return <p>Invalid filter. Please adjust your values.</p>;
+    return <Empty header="Invalid filter." text="Please adjust your values." />;
   }
 
   const filteredEvents = getFilteredEvents({
@@ -37,7 +38,9 @@ const FilteredEventsPage: NextPage = () => {
   });
 
   if (!filteredEvents || filteredEvents.length === 0) {
-    return <p>No events found for the chosen date.</p>;
+    return (
+      <Empty header="No events found." text="Please select a different date." />
+    );
   }
 
   const date = new Date(numYear, numMonth - 1);
