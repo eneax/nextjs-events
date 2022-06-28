@@ -15,7 +15,6 @@ const EventList = ({ events }: { events: Event[] }) => (
         image={event.image}
       />
     ))}
-    )
   </React.Fragment>
 );
 
