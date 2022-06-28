@@ -6,13 +6,14 @@ import { getFilteredEvents } from "data/dummy-data";
 import EventList from "components/events/EventList";
 import Results from "components/events/Results";
 import Empty from "components/Empty";
+import Loading from "components/Loading";
 
 const FilteredEventsPage: NextPage = () => {
   const router = useRouter();
   const filteredData = router.query.slug;
 
   if (!filteredData) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   const filteredYear = filteredData[0];
