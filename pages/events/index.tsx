@@ -1,4 +1,5 @@
 import * as React from "react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 
@@ -15,6 +16,12 @@ const AllEventsPage: NextPage = () => {
 
   return (
     <React.Fragment>
+      <Head>
+        <title>All Events</title>
+        <meta name="description" content="Browse all the events" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <EventSearch onSearch={searchEvents} />
       <EventList events={events} />
     </React.Fragment>

@@ -1,4 +1,5 @@
 import * as React from "react";
+import Head from "next/head";
 import type { NextPage } from "next";
 
 import { getFeaturedEvents } from "data/dummy-data";
@@ -9,6 +10,12 @@ const Home: NextPage = () => {
 
   return (
     <React.Fragment>
+      <Head>
+        <title>Home</title>
+        <meta name="description" content="Home" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <EventList events={featuredEvents} />
     </React.Fragment>
   );

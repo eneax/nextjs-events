@@ -1,4 +1,5 @@
 import * as React from "react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 
@@ -48,6 +49,15 @@ const FilteredEventsPage: NextPage = () => {
 
   return (
     <React.Fragment>
+      <Head>
+        <title>Filtered Events</title>
+        <meta
+          name="description"
+          content="Browse all the events for a specific date"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <Results date={date} />
       <EventList events={filteredEvents} />
     </React.Fragment>
