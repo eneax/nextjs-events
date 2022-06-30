@@ -1,15 +1,16 @@
 import * as React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import type { NextPage } from "next";
+import type { InferGetStaticPropsType } from "next";
 
-import { getAllEvents } from "data/dummy-data";
+import { getAllEvents } from "utils/api";
 import EventSearch from "components/events/EventSearch";
 import EventList from "components/events/EventList";
 
-const AllEventsPage: NextPage = () => {
+const AllEventsPage = ({
+  events,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
-  const events = getAllEvents();
 
   const searchEvents = (year: string, month: string) =>
     router.push(`/events/${year}/${month}`);
@@ -29,3 +30,14 @@ const AllEventsPage: NextPage = () => {
 };
 
 export default AllEventsPage;
+
+export const getStaticProps = async () => {
+  const events = await getAllEvents();
+
+  return {
+    props: {
+      events,
+    },
+    revalidate: 60,
+  };
+};
