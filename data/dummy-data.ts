@@ -41,11 +41,6 @@ const DUMMY_EVENTS: Event[] = [
   },
 ];
 
-export const getFeaturedEvents = () =>
-  DUMMY_EVENTS.filter((event) => event.isFeatured);
-
-export const getAllEvents = () => DUMMY_EVENTS;
-
 export const getFilteredEvents = ({
   year,
   month,
