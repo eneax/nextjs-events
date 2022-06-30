@@ -1,18 +1,15 @@
 import * as React from "react";
 import Head from "next/head";
-import type { NextPage } from "next";
-import { useRouter } from "next/router";
+import type { InferGetStaticPropsType, GetStaticProps } from "next";
 import { FiCalendar, FiHome } from "react-icons/fi";
 import Image from "next/image";
 
-import { getEventById } from "data/dummy-data";
+import { getAllEvents, getEventById } from "utils/api";
 import Empty from "components/Empty";
 
-const EventDetailsPage: NextPage = () => {
-  const router = useRouter();
-  const { eventId } = router.query;
-  const event = getEventById(eventId as string);
-
+const EventDetailsPage = ({
+  event,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   if (!event) {
     return (
       <Empty header="No events found." text="Please select a different date." />
@@ -75,3 +72,29 @@ const EventDetailsPage: NextPage = () => {
 };
 
 export default EventDetailsPage;
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const { eventId } = context.params as { eventId: string };
+  const event = await getEventById(eventId);
+
+  return {
+    props: {
+      event,
+    },
+  };
+};
+
+export const getStaticPaths = async () => {
+  const events = await getAllEvents();
+
+  const paths = events.map((event) => ({
+    params: {
+      eventId: event.id,
+    },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
