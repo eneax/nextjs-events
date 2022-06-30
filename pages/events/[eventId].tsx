@@ -4,16 +4,14 @@ import type { InferGetStaticPropsType, GetStaticProps } from "next";
 import { FiCalendar, FiHome } from "react-icons/fi";
 import Image from "next/image";
 
-import { getAllEvents, getEventById } from "utils/api";
-import Empty from "components/Empty";
+import { getEventById, getFeaturedEvents } from "utils/api";
+import Loading from "components/Loading";
 
 const EventDetailsPage = ({
   event,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   if (!event) {
-    return (
-      <Empty header="No events found." text="Please select a different date." />
-    );
+    return <Loading />;
   }
 
   const formattedDate = new Date(event.date).toLocaleDateString("en-US", {
@@ -81,11 +79,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       event,
     },
+    revalidate: 30,
   };
 };
 
 export const getStaticPaths = async () => {
-  const events = await getAllEvents();
+  const events = await getFeaturedEvents();
 
   const paths = events.map((event) => ({
     params: {
@@ -95,6 +94,6 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false,
+    fallback: "blocking",
   };
 };
