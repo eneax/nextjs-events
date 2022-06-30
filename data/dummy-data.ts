@@ -57,7 +57,3 @@ export const getFilteredEvents = ({
 
   return filteredEvents;
 };
-
-export const getEventById = (id: string): Event | undefined => {
-  return DUMMY_EVENTS.find((event) => event.id === id);
-};
