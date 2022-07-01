@@ -12,29 +12,43 @@ const FilteredEventsPage = ({
   date,
   hasError,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const resultsDate = new Date(date.year, date.month - 1);
+
+  const MetaData = () => (
+    <Head>
+      <title>Filtered Events</title>
+      <meta
+        name="description"
+        content={`Browse all the events for ${date.month}/${date.year}.`}
+      />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
+  );
+
   if (hasError) {
-    return <Empty header="Invalid filter." text="Please adjust your values." />;
+    return (
+      <React.Fragment>
+        <MetaData />
+        <Empty header="Invalid filter." text="Please adjust your values." />
+      </React.Fragment>
+    );
   }
 
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
-      <Empty header="No events found." text="Please select a different date." />
+      <React.Fragment>
+        <MetaData />
+        <Empty
+          header="No events found."
+          text="Please select a different date."
+        />
+      </React.Fragment>
     );
   }
 
-  const resultsDate = new Date(date.year, date.month - 1);
-
   return (
     <React.Fragment>
-      <Head>
-        <title>Filtered Events</title>
-        <meta
-          name="description"
-          content="Browse all the events for a specific date"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+      <MetaData />
       <Results date={resultsDate} />
       <EventList events={filteredEvents} />
     </React.Fragment>
