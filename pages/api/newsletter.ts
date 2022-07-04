@@ -24,8 +24,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     // Connect to the database
     const client = await MongoClient.connect(`${process.env.DB_URL}`);
-    const db = client.db("newsletter");
-    await db.collection("emails").insertOne({ email });
+    const db = client.db("events");
+    await db.collection("newsletter").insertOne({ email });
     client.close();
 
     res.status(201).json({
