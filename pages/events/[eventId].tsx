@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import { getEventById, getFeaturedEvents } from "utils/api";
 import Loading from "components/Loading";
+import Comments from "components/comments/Comments";
 
 const EventDetailsPage = ({
   event,
@@ -61,9 +62,11 @@ const EventDetailsPage = ({
           </div>
         </div>
 
-        <p className="max-w-lg mx-auto mt-4 text-sm text-gray-500">
+        <p className="max-w-lg mx-auto my-4 text-sm text-gray-500">
           {event.description}
         </p>
+
+        <Comments eventId={event.id} />
       </section>
     </React.Fragment>
   );
