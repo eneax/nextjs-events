@@ -1,6 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { MongoClient } from "mongodb";
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { eventId } = req.query;
+  const client = await MongoClient.connect(`${process.env.DB_URL}`);
+
   if (req.method === "POST") {
     const { name, email, comment } = req.body;
 
@@ -16,17 +20,19 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    const commentData = {
-      id: new Date().toISOString(),
+    const newComment = {
       name,
       email,
       comment,
+      eventId,
     };
-    console.log(commentData);
+
+    const db = client.db("events");
+    await db.collection("comments").insertOne({ newComment });
 
     res.status(201).json({
       message: "Comment created.",
-      comment: commentData,
+      comment: newComment,
     });
   }
 
@@ -48,6 +54,8 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
       comments: dummyComments,
     });
   }
+
+  client.close();
 };
 
 export default handler;
