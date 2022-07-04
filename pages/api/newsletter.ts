@@ -1,11 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { MongoClient } from "mongodb";
 
 type Data = {
   message?: string;
   error?: string;
 };
 
-const handler = (req: NextApiRequest, res: NextApiResponse<Data>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   if (req.method === "POST") {
     const { email } = req.body;
 
@@ -20,6 +21,12 @@ const handler = (req: NextApiRequest, res: NextApiResponse<Data>) => {
       });
       return;
     }
+
+    // Connect to the database
+    const client = await MongoClient.connect(`${process.env.DB_URL}`);
+    const db = client.db("newsletter");
+    await db.collection("emails").insertOne({ email });
+    client.close();
 
     res.status(201).json({
       message: "Successfully subscribed!",
