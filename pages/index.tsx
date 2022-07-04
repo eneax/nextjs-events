@@ -4,6 +4,7 @@ import type { InferGetStaticPropsType } from "next";
 
 import { getFeaturedEvents } from "utils/api";
 import EventList from "components/events/EventList";
+import Newsletter from "components/Newsletter";
 
 const Home = ({
   featuredEvents,
@@ -16,6 +17,7 @@ const Home = ({
     </Head>
 
     <EventList events={featuredEvents} />
+    <Newsletter />
   </React.Fragment>
 );
 
