@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { MongoClient } from "mongodb";
+
+import { connectToDatabase, insertDocument } from "utils/db";
 
 type Data = {
   message?: string;
@@ -22,11 +23,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       return;
     }
 
-    // Connect to the database
-    const client = await MongoClient.connect(`${process.env.DB_URL}`);
-    const db = client.db("events");
-    await db.collection("newsletter").insertOne({ email });
-    client.close();
+    let client;
+    try {
+      // Connect to the database
+      client = await connectToDatabase();
+    } catch (error) {
+      res.status(500).json({
+        message: "Error connecting to database!",
+      });
+      return;
+    }
+
+    try {
+      // Insert email into the database
+      await insertDocument({
+        client,
+        collection: "newsletter",
+        document: { email },
+      });
+      // Close the database connection
+      client.close();
+    } catch (error) {
+      res.status(500).json({
+        message: "Error inserting data!",
+      });
+      return;
+    }
 
     res.status(201).json({
       message: "Successfully subscribed!",
