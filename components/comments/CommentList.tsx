@@ -1,14 +1,16 @@
 interface Comment {
-  id: string;
-  name: string;
-  comment: string;
+  _id: string;
+  comment: {
+    name: string;
+    comment: string;
+  };
 }
 
 const CommentList = ({ comments }: { comments: Comment[] }) => (
   <div className="mt-8">
-    {comments.map(({ id, name, comment }) => (
+    {comments.map(({ _id, comment: { comment, name } }) => (
       <article
-        key={id}
+        key={_id}
         className="bg-white border-2 border-gray-100 rounded-xl mt-4"
       >
         <div className="flex items-start p-6">

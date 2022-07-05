@@ -28,7 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     };
 
     const db = client.db("events");
-    await db.collection("comments").insertOne({ newComment });
+    await db.collection("comments").insertOne({ comment: newComment });
 
     res.status(201).json({
       message: "Comment created.",
@@ -37,22 +37,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === "GET") {
-    const dummyComments = [
-      {
-        id: "c1",
-        name: "John",
-        comment: "This is my comment!",
-      },
-      {
-        id: "c2",
-        name: "Jane",
-        comment: "Another comment!",
-      },
-    ];
+    const db = client.db("events");
+    const comments = await db
+      .collection("comments")
+      .find({ "comment.eventId": eventId }) // find all comments for this event
+      .sort({ _id: -1 }) // sort by newest comment first
+      .toArray();
 
-    res.status(200).json({
-      comments: dummyComments,
-    });
+    res.status(200).json({ comments });
   }
 
   client.close();
