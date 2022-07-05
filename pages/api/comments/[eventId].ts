@@ -1,6 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { MongoClient } from "mongodb";
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { eventId } = req.query;
+  const client = await MongoClient.connect(`${process.env.DB_URL}`);
+
   if (req.method === "POST") {
     const { name, email, comment } = req.body;
 
@@ -16,38 +20,34 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    const commentData = {
-      id: new Date().toISOString(),
+    const newComment = {
       name,
       email,
       comment,
+      eventId,
     };
-    console.log(commentData);
+
+    const db = client.db("events");
+    await db.collection("comments").insertOne({ comment: newComment });
 
     res.status(201).json({
       message: "Comment created.",
-      comment: commentData,
+      comment: newComment,
     });
   }
 
   if (req.method === "GET") {
-    const dummyComments = [
-      {
-        id: "c1",
-        name: "John",
-        comment: "This is my comment!",
-      },
-      {
-        id: "c2",
-        name: "Jane",
-        comment: "Another comment!",
-      },
-    ];
+    const db = client.db("events");
+    const comments = await db
+      .collection("comments")
+      .find({ "comment.eventId": eventId }) // find all comments for this event
+      .sort({ _id: -1 }) // sort by newest comment first
+      .toArray();
 
-    res.status(200).json({
-      comments: dummyComments,
-    });
+    res.status(200).json({ comments });
   }
+
+  client.close();
 };
 
 export default handler;
