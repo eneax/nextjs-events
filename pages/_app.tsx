@@ -3,11 +3,14 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 
 import "../styles/globals.css";
-import Header from "components/Header";
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
-  return (
-    <React.Fragment>
+import { NotificationProvider } from "context/NotificationContext";
+
+import Layout from "components/Layout";
+
+const MyApp = ({ Component, pageProps }: AppProps) => (
+  <NotificationProvider>
+    <Layout>
       <Head>
         <title>Next Events</title>
         <meta
@@ -16,13 +19,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-
-      <Header />
-      <main>
-        <Component {...pageProps} />
-      </main>
-    </React.Fragment>
-  );
-};
+      <Component {...pageProps} />
+    </Layout>
+  </NotificationProvider>
+);
 
 export default MyApp;
