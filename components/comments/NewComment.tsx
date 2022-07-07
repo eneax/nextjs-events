@@ -1,10 +1,13 @@
 import * as React from "react";
 import { FiArrowRight } from "react-icons/fi";
 
+import NotificationContext from "context/NotificationContext";
+
 import Button from "components/Button";
 
 const NewComment = ({ eventId }: { eventId: string }) => {
   const [isInvalid, setIsInvalid] = React.useState(false);
+  const { showNotification } = React.useContext(NotificationContext);
 
   const emailInputRef = React.useRef<HTMLInputElement>(null);
   const nameInputRef = React.useRef<HTMLInputElement>(null);
@@ -30,15 +33,40 @@ const NewComment = ({ eventId }: { eventId: string }) => {
       return;
     }
 
+    showNotification({
+      title: "Sending...",
+      message: "Saving your comment.",
+      status: "pending",
+    });
+
     fetch(`/api/comments/${eventId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, comment }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        return response.json().then((data) => {
+          throw new Error(data.message || "Something went wrong.");
+        });
+      })
+      .then(() => {
+        showNotification({
+          title: "Success!",
+          message: "Your comment has been saved.",
+          status: "success",
+        });
         setIsInvalid(false);
+      })
+      .catch((error) => {
+        showNotification({
+          title: "Error!",
+          message: error.message || "There was an error saving your comment.",
+          status: "error",
+        });
       });
 
     event.currentTarget.reset();
