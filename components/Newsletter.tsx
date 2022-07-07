@@ -1,11 +1,20 @@
 import * as React from "react";
 import { FiArrowRight } from "react-icons/fi";
 
+import NotificationContext from "context/NotificationContext";
+
 const Newsletter = () => {
   const emailInputRef = React.useRef<HTMLInputElement>(null);
+  const { showNotification } = React.useContext(NotificationContext);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    showNotification({
+      title: "Signing up...",
+      message: "Registering your email address.",
+      status: "pending",
+    });
 
     const email = emailInputRef.current?.value;
 
@@ -17,8 +26,31 @@ const Newsletter = () => {
         },
         body: JSON.stringify({ email }),
       })
-        .then((res) => res.json())
-        .then((data) => console.log(data));
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+
+          return response.json().then((data) => {
+            throw new Error(data.message || "Something went wrong.");
+          });
+        })
+        .then(() => {
+          showNotification({
+            title: "Success!",
+            message: "You have been signed up for the newsletter.",
+            status: "success",
+          });
+        })
+        .catch((error) => {
+          showNotification({
+            title: "Error!",
+            message:
+              error.message ||
+              "There was an error signing you up for the newsletter.",
+            status: "error",
+          });
+        });
     }
 
     event.currentTarget.reset();
