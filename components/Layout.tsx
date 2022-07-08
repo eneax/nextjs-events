@@ -3,6 +3,7 @@ import * as React from "react";
 import NotificationContext from "context/NotificationContext";
 import Notification from "components/Notification";
 import Header from "components/Header";
+import Newsletter from "components/Newsletter";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { notification } = React.useContext(NotificationContext);
@@ -19,6 +20,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
       <Header />
       <main>{children}</main>
+
+      <Newsletter />
 
       <footer className="bg-gray-100">
         <div className="max-w-screen-xl px-4 pb-8 mx-auto sm:px-6 lg:px-8">
