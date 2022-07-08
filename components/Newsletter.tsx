@@ -10,13 +10,22 @@ const Newsletter = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const email = emailInputRef.current?.value;
+
+    if (
+      !email ||
+      email.trim() === "" ||
+      !email.includes("@") ||
+      !email.includes(".")
+    ) {
+      return;
+    }
+
     showNotification({
       title: "Signing up...",
       message: "Registering your email address.",
       status: "pending",
     });
-
-    const email = emailInputRef.current?.value;
 
     if (email) {
       fetch("/api/newsletter", {
