@@ -7,6 +7,7 @@ import Image from "next/image";
 import { getEventById, getFeaturedEvents } from "utils/api";
 import Loading from "components/Loading";
 import Comments from "components/comments/Comments";
+import Header from "components/Header";
 
 const EventDetailsPage = ({
   event,
@@ -32,10 +33,10 @@ const EventDetailsPage = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <section className="max-w-screen-md px-4 py-16 mx-auto text-center lg:py-32">
-        <h1 className="text-4xl font-bold sm:text-6xl">{event.title}</h1>
+      <Header heading={event.title} />
 
-        <div className="block mt-4">
+      <section className="max-w-screen-md px-4 py-8 mx-auto text-center lg:py-16">
+        <div className="block">
           <div className="mx-auto w-full h-72 relative">
             <Image
               src={`/${event.image}`}

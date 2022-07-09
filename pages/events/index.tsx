@@ -6,6 +6,7 @@ import type { InferGetStaticPropsType } from "next";
 import { getAllEvents } from "utils/api";
 import EventSearch from "components/events/EventSearch";
 import EventList from "components/events/EventList";
+import Header from "components/Header";
 
 const AllEventsPage = ({
   events,
@@ -23,6 +24,7 @@ const AllEventsPage = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <Header heading="All Events" />
       <EventSearch onSearch={searchEvents} />
       <EventList events={events} />
     </React.Fragment>
