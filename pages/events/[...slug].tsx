@@ -4,8 +4,9 @@ import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 
 import { getFilteredEvents } from "utils/api";
 import EventList from "components/events/EventList";
-import Results from "components/events/Results";
 import Empty from "components/Empty";
+import Header from "components/Header";
+import Button from "components/Button";
 
 const FilteredEventsPage = ({
   filteredEvents,
@@ -13,6 +14,10 @@ const FilteredEventsPage = ({
   hasError,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const resultsDate = new Date(date.year, date.month - 1);
+  const formattedDate = new Date(resultsDate).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
 
   const MetaData = () => (
     <Head>
@@ -38,6 +43,7 @@ const FilteredEventsPage = ({
     return (
       <React.Fragment>
         <MetaData />
+        <Header heading={`Events in ${formattedDate}`} />
         <Empty
           header="No events found."
           text="Please select a different date."
@@ -49,7 +55,12 @@ const FilteredEventsPage = ({
   return (
     <React.Fragment>
       <MetaData />
-      <Results date={resultsDate} />
+
+      <Header heading={`Events in ${formattedDate}`} />
+      <div className="mx-auto my-4 w-11/12 max-w-2xl text-center">
+        <Button link="/events">Show all events</Button>
+      </div>
+
       <EventList events={filteredEvents} />
     </React.Fragment>
   );

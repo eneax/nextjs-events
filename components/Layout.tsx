@@ -2,7 +2,7 @@ import * as React from "react";
 
 import NotificationContext from "context/NotificationContext";
 import Notification from "components/Notification";
-import Header from "components/Header";
+import Nav from "components/Nav";
 import Newsletter from "components/Newsletter";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -18,7 +18,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         />
       )}
 
-      <Header />
+      <Nav />
       <main>{children}</main>
 
       <Newsletter />
