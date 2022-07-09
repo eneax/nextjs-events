@@ -8,35 +8,35 @@ export interface Event {
   isFeatured: boolean;
 }
 
-const DUMMY_EVENTS: Event[] = [
+const events: Event[] = [
   {
     id: "e1",
     title: "Programming for everyone",
     description:
-      "Everyone can learn to code! Yes, everyone! In this live event, we are going to go through all the key basics and get you started with programming as well.",
-    location: "Somestreet 25, 12345 San Somewhereo",
+      "Level-up your web dev career. Join thousands of ambitious developers who want to scale their careers. You are going to learn HTML, CSS, JS, and more!",
+    location: "Online",
     date: "2021-05-12",
     image: "images/coding-event.jpg",
     isFeatured: false,
   },
   {
     id: "e2",
-    title: "Networking for introverts",
+    title: "Learn React.js",
     description:
-      "We know: Networking is no fun if you are an introvert person. That's why we came up with this event - it'll be so much easier. Promised!",
-    location: "New Wall Street 5, 98765 New Work",
+      "Dive in and learn React.js from scratch! Learn Reactjs fundamentals, Hooks, Redux, React Routing, Animations, and more!",
+    location: "Online",
     date: "2021-05-30",
-    image: "images/introvert-event.jpg",
+    image: "images/learn-reactjs.jpg",
     isFeatured: true,
   },
   {
     id: "e3",
-    title: "Networking for extroverts",
+    title: "Learn Next.js",
     description:
-      "You probably need no help with networking in general. But focusing your energy correctly - that is something where most people can improve.",
-    location: "My Street 12, 10115 Broke City",
+      "Learn Next.js from the ground up and build production-ready, fullstack applications!",
+    location: "Online",
     date: "2022-04-10",
-    image: "images/extrovert-event.jpg",
+    image: "images/learn-nextjs.jpg",
     isFeatured: true,
   },
 ];
