@@ -2,6 +2,7 @@ import * as React from "react";
 import Head from "next/head";
 import type { NextPage } from "next";
 
+import Header from "components/Header";
 import Empty from "components/Empty";
 
 const NotFound: NextPage = () => (
@@ -12,7 +13,12 @@ const NotFound: NextPage = () => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <Empty header="404" text="Page not found." />
+    <Header heading="404" />
+
+    <Empty
+      header="Not Found"
+      text="You just hit a route that doesn't exist... the sadness."
+    />
   </React.Fragment>
 );
 
