@@ -8,10 +8,24 @@ import Empty from "components/Empty";
 import Header from "components/Header";
 import Button from "components/Button";
 
+const MetaData = ({
+  date: { month, year },
+}: {
+  date: { month: number; year: number };
+}) => (
+  <Head>
+    <title>Filtered Events</title>
+    <meta
+      name="description"
+      content={`Browse all the events for ${month}/${year}.`}
+    />
+    <link rel="icon" href="/favicon.ico" />
+  </Head>
+);
+
 const FilteredEventsPage = ({
   filteredEvents,
   date,
-  hasError,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const resultsDate = new Date(date.year, date.month - 1);
   const formattedDate = new Date(resultsDate).toLocaleDateString("en-US", {
@@ -19,30 +33,10 @@ const FilteredEventsPage = ({
     year: "numeric",
   });
 
-  const MetaData = () => (
-    <Head>
-      <title>Filtered Events</title>
-      <meta
-        name="description"
-        content={`Browse all the events for ${date.month}/${date.year}.`}
-      />
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
-  );
-
-  if (hasError) {
-    return (
-      <React.Fragment>
-        <MetaData />
-        <Empty header="Invalid filter." text="Please adjust your values." />
-      </React.Fragment>
-    );
-  }
-
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <React.Fragment>
-        <MetaData />
+        <MetaData date={date} />
         <Header heading={`Events in ${formattedDate}`} />
         <Empty
           header="No events found."
@@ -54,7 +48,7 @@ const FilteredEventsPage = ({
 
   return (
     <React.Fragment>
-      <MetaData />
+      <MetaData date={date} />
 
       <Header heading={`Events in ${formattedDate}`} />
       <div className="mx-auto my-4 w-11/12 max-w-2xl text-center">
@@ -72,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (!context.params) {
     return {
       props: {
-        hasError: true,
+        notFound: true,
       },
     };
   }
@@ -82,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (!filteredData) {
     return {
       props: {
-        hasError: true,
+        notFound: true,
       },
     };
   }
@@ -102,13 +96,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     numMonth < 1
   ) {
     return {
-      props: {
-        hasError: true,
-      },
-      // notFound: true,
-      // redirect: {
-      //   destination: "/custom-error-page",
-      // },
+      notFound: true,
     };
   }
 
@@ -124,7 +112,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         year: numYear,
         month: numMonth,
       },
-      hasError: false,
     },
   };
 };
