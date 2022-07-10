@@ -5,17 +5,12 @@ import { FiCalendar, FiHome } from "react-icons/fi";
 import Image from "next/image";
 
 import { getEventById, getFeaturedEvents } from "utils/api";
-import Loading from "components/Loading";
 import Comments from "components/comments/Comments";
 import Header from "components/Header";
 
 const EventDetailsPage = ({
   event,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  if (!event) {
-    return <Loading />;
-  }
-
   const formattedDate = new Date(event.date).toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
@@ -78,6 +73,12 @@ export default EventDetailsPage;
 export const getStaticProps: GetStaticProps = async (context) => {
   const { eventId } = context.params as { eventId: string };
   const event = await getEventById(eventId);
+
+  if (!event) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
